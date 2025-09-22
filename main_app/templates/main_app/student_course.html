@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>My courses</h1>
+  
+  {% for enrollment in enrollments %}
+    <div class="card">
+      <div class="card-content">
+        <div class="flex-container">
+            <div>
+              <span class="card-title">{{ enrollment.course.course_code }}</span>
+              <p>Code: {{ enrollment.course.course_code }}</p>
+              <p>Course Name: {{ enrollment.course.course_name }}</p>
+              <p>Teacher: {{ enrollment.course.user_name }}</p>
+            </div>
+            <a href="{% url 'grade_detail' enrollment_id=enrollment.id %}" class="btn btn-primary">
+              View Grade
+            </a>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <div class="card">
+      <div class="card-content">
+        <p>You are not enrolled in any courses yet.</p>
+      </div>
+    </div>
+  {% endfor %}
+{% endblock %}

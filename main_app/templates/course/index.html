@@ -1,0 +1,33 @@
+ {% extends 'base.html' %}
+{% block content %}
+  <h1>All course</h1>
+  
+
+
+
+        {% comment %} <a href= "{%url 'detail' course.id%}"> {% endcomment %}
+  {% for course in courses %}
+    <div class="card">
+    
+      <div class="card-content">
+        <div class="flex-container">
+            <div>
+                <a href= "{%url 'detail' course.id%}">
+              <span class="card-title">{{ course.course_name }}</span>
+            
+              <p>Code: {{ course.course_code }}</p>
+              <p> CourseName {{course.course_name}}
+              {% comment %} <p> Teacher  {{course.user_name}} </p> {% endcomment %}
+            </div>
+            <a href="{% url 'course_delete' course.id%}" class="btn btn-primary mt-2">Delete Course</a>
+
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  
+
+   <a href="{% url 'course_create'%}" class="btn btn-primary mt-2">Add new Course</a>
+
+
+{% endblock %} 

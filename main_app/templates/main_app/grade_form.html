@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+   
+        
+<form method="POST">
+    {% csrf_token %}
+    <p>Student: <input type="id" name="enrollment"></p>
+    <p>Status: <input type="text" name="status"></p>
+    <p>Midterm: <input type="number" name="midterm"></p>
+    <p>Quizzes: <input type="number" name="quizzes"></p>
+    <p>Assignments: <input type="number" name="assignments"></p>
+    <p>Project: <input type="number" name="project"></p>
+    <p>Final Exam: <input type="number" name="final_exam"></p>
+    <button type="submit">Save</button>
+</form>
+{% endblock %}

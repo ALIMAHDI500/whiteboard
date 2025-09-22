@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+
+  <h1>Course Details</h1>
+  
+     <div class="card">
+        <div class="card-content">
+          <div class="flex-container">
+              <div>
+                <span class="card-title">CourseName     {{ course.course_name }}</span>
+                <p>Course Code :                 {{ course.course_code }}</p>
+                <p>Teacher:                      {{ course.user }}</p>
+               <p> </p>
+              </div>
+    <a href="{% url 'add_student' course.id %}">
+        <button>Add Student to Course</button>
+    </a>
+
+ 
+     <a href="{% url 'student_list' course.id %}">  <button> View Student </button>    </a> 
+    
+     {% comment %} <a href="{% url 'student_grade_view' course.id %}">  <button> View My Grade </button>    </a>  {% endcomment %}
+
+              
+      
+ 
+        </div>
+  </div>
+
+
+</ul>
+  
+  <hr>
+<ul>
+
+</ul>
+
+</div>
+</div>
+
+  {% endblock%}

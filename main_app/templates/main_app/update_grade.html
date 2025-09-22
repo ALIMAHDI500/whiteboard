@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>{% if grade.id %}Update{% else %}Add{% endif %} Grade</h2>
+    <p>Student: {{ enrollment.student.username }}</p>
+    <p>Course: {{ enrollment.course.course_name }}</p>
+    
+
+    
+    <form method="POST">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label class="form-label">Status</label>
+            {{ form.status }}
+        </div>
+        
+        <h5>Scores</h5>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Midterm</label>
+                {{ form.midterm }}
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Quizzes</label>
+                {{ form.quizzes }}
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Assignments</label>
+                {{ form.assignments }}
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Project</label>
+                {{ form.project }}
+            </div>
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Final Exam</label>
+            {{ form.final_exam }}
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Save Grade</button>
+        <a href="{% url 'grade_detail' enrollment_id=enrollment.id %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

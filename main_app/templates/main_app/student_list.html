@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Student List</h1>
+
+  <ul>
+
+{% for enrollment in enrollments %}
+    {% if enrollment.id %}
+        <h2>{{ enrollment.student.get_full_name }}</h2>
+        
+     
+         {% if enrollment.has_grade %}
+           
+            <p>Grade already exists for this student</p>
+            <a href="{% url 'update_grade' enrollment_id=enrollment.id %}">Update Grade</a>
+            <a href="{% url 'update_grade' enrollment_id=enrollment.id %}" class="btn btn-warning">
+    Update Grade
+</a>
+            {% comment %} <a href="{% url 'delete_student_enrollment' enrollment_id=enrollment.id %}">Delete Enrollment</a>  {% endcomment %}
+        {% else %}
+        
+            <a href="{% url 'add_grade' enrollment_id=enrollment.id %}">Add Grade</a>
+        {% endif %}
+    {% else %}
+        <p>No enrollment yet - it's an empty list</p>
+    {% endif %}
+{% endfor %}
+            </li> 
+       
+    </ul>
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    {% if not user %}
+        <div class="alert alert-danger">
+            <h2>Access Denied</h2>
+            <p>You are not authorized to view this grade.</p>
+            <a href="{% url 'student_course' %}" class="btn btn-secondary">Back to Courses</a>
+        </div>
+    {% else %}
+        <h2>Grade Details</h2>
+        
+        <div class="card">
+            <div class="card-header">
+                <h4>{{ enrollment.course.course_name }}</h4>
+            </div>
+            <div class="card-body">
+                <p><strong>Student:</strong> {{ enrollment.student.username }}</p>
+                <p><strong>Course Code:</strong> {{ enrollment.course.course_code }}</p>
+                
+                {% if grade %}
+                    <p><strong>Status:</strong> {{ grade.status }}</p>
+                    <p><strong>Date:</strong> {{ grade.date }}</p>
+                    
+                    <h5>Scores:</h5>
+                    <ul>
+                        <li>Midterm: {{ grade.midterm }}</li>
+                        <li>Quizzes: {{ grade.quizzes }}</li>
+                        <li>Assignments: {{ grade.assignments }}</li>
+                        <li>Project: {{ grade.project }}</li>
+                        <li>Final Exam: {{ grade.final_exam }}</li>
+                    </ul>
+                    
+                    <p><strong>Total Score:</strong> {{ grade.total_score }}</p>
+                    
+                    {% comment %} <a href="{% url 'update_grade' enrollment_id=enrollment.id %}" class="btn btn-warning">
+                        Update Grade
+                    </a> {% endcomment %}
+                {% else %}
+                    <div class="alert alert-info">
+                        No grade record found for this enrollment.
+                    </div>
+                    <a href="{% url 'update_grade' enrollment_id=enrollment.id %}" class="btn btn-primary">
+                        Add Grade
+                    </a>
+                {% endif %}
+                
+                <a href="{% url 'student_course' %}" class="btn btn-secondary">Back to Courses</a>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

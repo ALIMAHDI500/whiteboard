@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% block title %} Register Page {% endblock title%}
+{% block content %}
+    <div class="form-content my-3 p-3">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-7">
+                    <div class="card shadow-lg border-0 rounded-lg mt-0 mb-5">
+                        <div class="card-header justify-content-center">
+                            <h3 class="font-weight-light my-4 text-center">Create Account</h3>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST">
+                                {% csrf_token %}
+                                
+                                <!-- Display form-level errors -->
+                                {% if form.non_field_errors %}
+                                    <div class="alert alert-danger alert-dismissible" role="alert">
+                                        <div id="form_errors">
+                                            {% for error in form.non_field_errors %}
+                                                <strong>{{ error }}</strong>
+                                            {% endfor %}
+                                        </div>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                {% endif %}
+                                
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="small mb-1">First Name</label>
+                                            <input type="text" name="first_name" class="form-control" 
+                                                   id="id_first_name" placeholder="Enter first name" 
+                                                   value="{{ form.first_name.value|default:'' }}" 
+                                                   required>
+                                            {% if form.first_name.errors %}
+                                                <div class="alert alert-danger mt-2">
+                                                    {{ form.first_name.errors }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="small mb-1">Last Name</label>
+                                            <input type="text" name="last_name" class="form-control" 
+                                                   id="id_last_name" placeholder="Enter last name" 
+                                                   value="{{ form.last_name.value|default:'' }}" 
+                                                   required>
+                                            {% if form.last_name.errors %}
+                                                <div class="alert alert-danger mt-2">
+                                                    {{ form.last_name.errors }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="small mb-1">Username</label>
+                                            <input type="text" name="username" class="form-control" 
+                                                   id="id_username" placeholder="Enter username" 
+                                                   value="{{ form.username.value|default:'' }}" 
+                                                   required>
+                                            {% if form.username.errors %}
+                                                <div class="alert alert-danger mt-2">
+                                                    {{ form.username.errors }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="small mb-1">Email</label>
+                                            <input type="email" name="email" class="form-control" 
+                                                   id="id_email" placeholder="Enter email address" 
+                                                   value="{{ form.email.value|default:'' }}" 
+                                                   required>
+                                            {% if form.email.errors %}
+                                                <div class="alert alert-danger mt-2">
+                                                    {{ form.email.errors }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="small mb-1">Password</label>
+                                            <input type="password" name="password1" class="form-control" 
+                                                   id="id_password1" placeholder="Enter password" 
+                                                   required>
+                                            {% if form.password1.errors %}
+                                                <div class="alert alert-danger mt-2">
+                                                    {{ form.password1.errors }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="small mb-1">Confirm Password</label>
+                                            <input type="password" name="password2" class="form-control" 
+                                                   id="id_password2" placeholder="Confirm password" 
+                                                   required>
+                                            {% if form.password2.errors %}
+                                                <div class="alert alert-danger mt-2">
+                                                    {{ form.password2.errors }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="small mb-1">Role</label>
+                                            <select name="role" class="form-control" id="id_role" required>
+                                                <option value="">Select your role</option>
+                                                <option value="Teacher" {% if form.role.value == "Teacher" %}selected{% endif %}>Teacher</option>
+                                                <option value="Student" {% if form.role.value == "Student" %}selected{% endif %}>Student</option>
+                                            </select>
+                                            {% if form.role.errors %}
+                                                <div class="alert alert-danger mt-2">
+                                                    {{ form.role.errors }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group mt-4 mb-0">
+                                    <button type="submit" class="col-md-12 btn btn-dark">Sign Up</button><br><br>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-footer text-center">
+                            <div class="small">
+                                <a href="{% url 'login' %}">Have an account? Go to Sign in</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

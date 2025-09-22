@@ -1,0 +1,81 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Whiteboaerd </title>
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+   
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+<body>
+  <header class="navbar-fixed">
+    <nav>
+      <div class="nav-wrapper">
+        <ul>
+          <li><a href="{%url 'home' %}" class="left brand-logo">&nbsp;&nbsp;&nbsp;Whiteboaerd</a></li>
+         
+        </ul>
+        <ul class="right">
+         <li><a href="{% url 'about' %}">About</a></li>
+            {% if user.is_authenticated   %}
+              {% comment %} <li><a href="{% url '' %}">Add a </a></li>
+              <li><a href="{% url '' %}">View All</a></li>
+              <li><a href="{% url '' %}">Add a</a></li> {% endcomment %}
+             
+
+         
+
+                  
+                               
+                   {% if user.profile.role == 'Student' %}
+                   <li><a href="{% url 'student_course' %}">View My course (Student) </a></li>
+                   {%else%}
+                    <li><a href="{% url 'index' %}">View All course </a></li>
+                    {% endif %}
+              
+             <li><form method="post" action="{% url 'profile' %}">
+                {% csrf_token %}
+                 <li><a href="{% url 'profile' %}">Profile </a></li>
+              </form></li> 
+
+               <li><form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit">Log Out</button>
+              </form></li>
+                         
+          {% else %}
+            <li><a href="{% url 'signup' %}">Sign Up </a></li>
+            <li><a href="{% url 'login' %}">Log In</a></li>
+          {% endif %}
+
+
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    {% block content %}
+      
+    {% endblock %}
+  </main>
+
+  <footer class="page-footer">
+    <div class="right">All Rights Reserved, &copy; 2025 Whiteboaerd &nbsp;</div>
+  </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    
+    <script src="https://unpkg.com/bootstrap-show-password@1.2.1/dist/bootstrap-show-password.min.js"></script>
+</body>
+</html>

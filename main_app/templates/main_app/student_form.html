@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<html>
+<head>
+    <title>Add Student to Course</title>
+</head>
+<body>
+    <h1>Add Student to {{ course.name }}</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Student</button>
+
+    </form>
+        
+    <a href="{% url 'detail' course.id %}">Back to Course Details</a>
+</body>
+</html>
+{% endblock %}
