@@ -52,7 +52,7 @@ class RegisterForm(UserCreationForm):
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Customize the username field
+      
         self.fields['username'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Enter username'})
         self.fields['password1'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Enter password'})
         self.fields['password2'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Confirm password'})
@@ -136,16 +136,9 @@ class Add_Enrollment_Student(forms.ModelForm):
     
         class Meta:
            model = Enrollment
-           fields = []  
+           fields = ['student', 'course']
     
-        def save(self, commit=True):
-          enrollment = super().save(commit=False)
-          user = self.cleaned_data['user']
-          enrollment.student = user
-          if commit:
-            enrollment.save()
-          return enrollment
-        
+      
 
 class GradeForm(forms.ModelForm):
     class Meta:

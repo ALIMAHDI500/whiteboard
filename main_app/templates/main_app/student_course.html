@@ -10,7 +10,7 @@
               <span class="card-title">{{ enrollment.course.course_code }}</span>
               <p>Code: {{ enrollment.course.course_code }}</p>
               <p>Course Name: {{ enrollment.course.course_name }}</p>
-              <p>Teacher: {{ enrollment.course.user_name }}</p>
+             
             </div>
             <a href="{% url 'grade_detail' enrollment_id=enrollment.id %}" class="btn btn-primary">
               View Grade
