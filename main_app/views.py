@@ -4,6 +4,8 @@ from django.shortcuts import get_object_or_404, render
 from django.shortcuts import render, redirect
 from .models import User, Profile,Course,Grade,Enrollment
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import  DeleteView
+
 from .forms import RegisterForm ,NewcourseForm,Add_Enrollment_Student,GradeForm
 from django.db import IntegrityError, models 
 from django.urls import reverse, reverse_lazy
@@ -31,11 +33,6 @@ class ProfileCreate(CreateView):
        form.instance.user=self.request.user
        return super().form_valid(form)
   
-# def profile(request):
-#     # Get or create profile if it doesn't exist
-#     profile, created = Profile.objects.get_or_create(user=request.user)
-#     return render(request, 'profile.html', {'user': request.user})
-
 class update_profile(UpdateView):
     model = Profile
     fields = ['phone', 'bio', 'avatar']
@@ -112,7 +109,12 @@ class course_delete(DeleteView):
     model=Course
     success_url='/courses/'
 
-    
+class CourseUpdate(UpdateView):
+    model = Course
+    fields=['course_name','course_code']
+    template_name = 'main_app/course_form.html'  
+    success_url = reverse_lazy('index')
+       
 def add_student(request, course_id):
     course = get_object_or_404(Course, id=course_id)
     
@@ -134,6 +136,12 @@ def add_student(request, course_id):
         'course': course,
     })
 
+
+class delete_student_enrollment (DeleteView):
+ model=Enrollment
+ success_url = reverse_lazy('index')  
+   
+     
 def student_list(request,course_id):
  course = get_object_or_404(Course, id=course_id)
  students = User.objects.filter(enrollment__course=course).distinct()   
@@ -170,16 +178,18 @@ def add_grade(request, enrollment_id):
     if request.method == 'POST':
      
         form = GradeForm(request.POST)
-        
         if form.is_valid():
+            grade.status='complated'
             new_grade = form.save(commit=False)
             new_grade.enrollment = enrollment
+            
             new_grade.save()
+            
           
     else:
         form = GradeForm()  
-    
-    return render(request, 'main_app/grade_form.html', {
+       
+    return render(request, 'main_app/grade_detail.html', {
         'form': form,
         'enrollment': enrollment,
         'grade':grade  
@@ -188,46 +198,26 @@ def add_grade(request, enrollment_id):
 def update_grade(request, enrollment_id):
     enrollment = get_object_or_404(Enrollment, id=enrollment_id)
     
-    # Debug: Print what we're working with
-    print(f"Enrollment ID: {enrollment_id}")
-    print(f"Enrollment: {enrollment}")
-    
-    # Get or create grade for this enrollment
-    try:
-        grade = Grade.objects.get(enrollment=enrollment)
-        print("Found existing grade")
-    except Grade.DoesNotExist:
-        grade = Grade(enrollment=enrollment)
-        print("Creating new grade")
+    grade, created = Grade.objects.get_or_create(
+        enrollment=enrollment,
+        defaults={'status': 'pending'}
+    )
     
     if request.method == 'POST':
-        print("POST request received")
-        print(f"POST data: {request.POST}")
-        
         form = GradeForm(request.POST, instance=grade)
-        
         if form.is_valid():
-            print("Form is valid - saving grade")
+            grade.status='complated'
             form.save()
-            print("Grade saved successfully")
-            # Redirect to grade_detail page - this should work with your URLs
+          
             return redirect('grade_detail', enrollment_id=enrollment.id)
-        else:
-            print("Form is NOT valid")
-            print(f"Form errors: {form.errors}")
-            # Print each field's errors
-            for field_name, errors in form.errors.items():
-                print(f"Field {field_name}: {errors}")
     else:
         form = GradeForm(instance=grade)
-        print("GET request - showing form")
     
-    context = {
+    return render(request, 'main_app/update_grade.html', {
         'form': form, 
         'enrollment': enrollment,
         'grade': grade
-    }
-    return render(request, 'main_app/update_grade.html', context)
+    })
 
 
 def course_detail(request, course_id):
@@ -248,8 +238,6 @@ def grade_detail(request,enrollment_id):
     
 
   enrollment = get_object_or_404(Enrollment, id=enrollment_id)
-    
-   
   
   grade = Grade.objects.filter(enrollment=enrollment).first()
 

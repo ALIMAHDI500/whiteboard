@@ -129,9 +129,8 @@ class NewcourseForm(forms.ModelForm):
 class Add_Enrollment_Student(forms.ModelForm):
 
         user = forms.ModelChoiceField(
-        queryset=User.objects.all(),
+        queryset= User.objects.filter(profile__role='Student'),
        
-
         label="Select Student"
     )
     
@@ -151,7 +150,7 @@ class Add_Enrollment_Student(forms.ModelForm):
 class GradeForm(forms.ModelForm):
     class Meta:
      model=Grade
-    #  fields=['status','date','score']
+  
      fields = ['status', 'midterm', 'quizzes', 'assignments', 'project', 'final_exam']
 
     def __init__(self, *args, **kwargs):

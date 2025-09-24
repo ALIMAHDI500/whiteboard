@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Delete Enrollment Student</h1>
+  <h4>Are you sure you want to delete <span class="teal-text">{{ enrollment.student.get_full_name }}</span>?</h4>
+
+
+
+
+  
+  <form action="" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Yes - Delete!" class="btn">
+    <a href="{% url 'index'%}" class="btn red">Cancel</a>
+
+  </form>
+{% endblock %}

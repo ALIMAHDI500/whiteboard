@@ -66,11 +66,6 @@ class Grade(models.Model):
     final_exam = models.FloatField(default=0)
 
 
-    # def __str__(self):
-    #    return f" {self.enrollment} - {self.score}  "
-  
-    # def get_absolute_url(self):
-    #      return reverse('student_list', kwargs={'enrollment': self.id})
   
     def total_score(self):
         return self.midterm + self.quizzes + self.assignments + self.project + self.final_exam

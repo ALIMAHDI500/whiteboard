@@ -1,32 +1,50 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Student List</h1>
-
-  <ul>
-
-{% for enrollment in enrollments %}
-    {% if enrollment.id %}
-        <h2>{{ enrollment.student.get_full_name }}</h2>
+<div class="student-list-container">
+    <h1>Student List</h1>
+    
+    {% if enrollments %}
+        <ul class="student-list">
+            {% for enrollment in enrollments %}
+                {% if enrollment.id %}
+                    <li class="student-item">
+                        <div class="student-header">
+                            <h2 class="student-name">
+                                {{ enrollment.student.get_full_name }}
+                                {% if enrollment.has_grade %}
+                                    <span class="grade-status grade-added">Graded</span>
+                                {% else %}
+                                    <span class="grade-status grade-pending">Pending Grade</span>
+                                {% endif %}
+                            </h2>
+                            
+                            <div class="student-actions">
+                                {% if enrollment.has_grade %}
+                                    <a href="{% url 'update_grade' enrollment_id=enrollment.id %}" class="btn btn-warning">
+                                        <i class="fas fa-edit"></i> Update Grade
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'add_grade' enrollment_id=enrollment.id %}" class="btn btn-primary">
+                                        <i class="fas fa-plus"></i> Add Grade
+                                    </a>
+                                    <a href="{% url 'delete_student_enrollment' course.id enrollment.id %}" class="btn btn-danger">
+                                        <i class="fas fa-trash"></i> Delete Enrollment
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
         
-     
-         {% if enrollment.has_grade %}
-           
-            <p>Grade already exists for this student</p>
-            <a href="{% url 'update_grade' enrollment_id=enrollment.id %}">Update Grade</a>
-            <a href="{% url 'update_grade' enrollment_id=enrollment.id %}" class="btn btn-warning">
-    Update Grade
-</a>
-            {% comment %} <a href="{% url 'delete_student_enrollment' enrollment_id=enrollment.id %}">Delete Enrollment</a>  {% endcomment %}
-        {% else %}
-        
-            <a href="{% url 'add_grade' enrollment_id=enrollment.id %}">Add Grade</a>
-        {% endif %}
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
     {% else %}
-        <p>No enrollment yet - it's an empty list</p>
+        <div class="empty-list">
+            <i class="fas fa-users"></i>
+            <h3>No Students Enrolled</h3>
+            <p>There are no students enrolled in this course yet.</p>
+        </div>
     {% endif %}
-{% endfor %}
-            </li> 
-       
-    </ul>
-
+</div>
 {% endblock %}
